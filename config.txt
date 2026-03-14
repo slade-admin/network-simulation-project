@@ -1,0 +1,63 @@
+Network Simulation Project Configuration
+
+> Router0 Configuration
+hostname Router0
+
+ LAN Interface to Switch0
+interface GigabitEthernet0/0/0
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+exit
+
+ Router-to-Router Link
+interface GigabitEthernet0/0/1
+ ip address 10.0.0.1 255.255.255.252
+ no shutdown
+exit
+
+ip route 192.168.2.0 255.255.255.0 10.0.0.2
+
+> RIP configuration
+router rip
+ version 2
+ no auto-summary
+ network 192.168.1.0
+ network 10.0.0.0
+exit
+
+> Router1 Configuration
+hostname Router1
+
+interface GigabitEthernet0/0/0
+ ip address 10.0.0.2 255.255.255.252
+ no shutdown
+exit
+
+interface GigabitEthernet0/0/1
+ ip address 192.168.2.1 255.255.255.0
+ no shutdown
+exit
+
+ip route 192.168.1.0 255.255.255.0 10.0.0.1
+
+> RIP configuration
+router rip
+ version 2
+ no auto-summary
+ network 192.168.2.0
+ network 10.0.0.0
+exit
+
+> pc configurations
+PC0: 192.168.1.10 / 255.255.255.0, Gateway 192.168.1.1
+PC1: 192.168.1.11 / 255.255.255.0, Gateway 192.168.1.1
+PC2: 192.168.2.10 / 255.255.255.0, Gateway 192.168.2.1
+PC3: 192.168.2.11 / 255.255.255.0, Gateway 192.168.2.1
+
+> Extras
+- All router interfaces are set with `no shutdown`.
+- RIP v2 dynamically advertises LANs to each router.
+- PC0 → PC3 ping should reply successfully.
+- topology.png should illustrate the network.
+- proj2.pkt is the saved Packet Tracer file.
+
